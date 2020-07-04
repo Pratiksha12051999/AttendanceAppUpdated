@@ -46,10 +46,12 @@ public class AddAnnouncement extends AppCompatActivity {
 
                 String Subject = subject.getText().toString().trim();
                 String Content = content.getText().toString().trim();
-                String timestamp =New.toString();
+                long time=(long) System.currentTimeMillis() / 1000L;
+                String timestamp =String.valueOf(time);
+                time *=-1;
                 Ann ann = new Ann(Subject, Content, timestamp);
                 addNotification(Subject);
-                mDatabase.push().setValue(ann);
+                mDatabase.child(String.valueOf(time)).setValue(ann);
 
                 Intent goToAnnouncement;
                 goToAnnouncement = new Intent(AddAnnouncement.this, Announcements.class);
