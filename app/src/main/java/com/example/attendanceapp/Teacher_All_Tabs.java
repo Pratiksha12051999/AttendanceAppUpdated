@@ -81,13 +81,27 @@ public class Teacher_All_Tabs extends AppCompatActivity implements NavigationVie
                 startActivity(announcement);
             }
         });
+//        teacher_assignment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent assignment = new Intent(Teacher_All_Tabs.this, Assignment_Teacher_main.class);
+//                startActivity(assignment);
+//            }
+//        });
         teacher_assignment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent assignment = new Intent(Teacher_All_Tabs.this, Assignment_yearbutton.class);
+                Intent assignment = new Intent(Teacher_All_Tabs.this, Assignment_status_upload.class);
                 startActivity(assignment);
             }
         });
+//        teacher_assignment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent assignment = new Intent(Teacher_All_Tabs.this, Assignment_StatusExcel.class);
+//                startActivity(assignment);
+//            }
+//        });
         teacher_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
