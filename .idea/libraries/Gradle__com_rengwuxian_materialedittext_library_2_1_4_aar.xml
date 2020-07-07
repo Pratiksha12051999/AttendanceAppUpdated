@@ -1,11 +1,19 @@
 <component name="libraryTable">
   <library name="Gradle: com.rengwuxian.materialedittext:library:2.1.4@aar">
     <ANNOTATIONS>
+<<<<<<< HEAD
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ab5eb1bd09da2e85868a6e869eb9ec0c/jetified-library-2.1.4/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ab5eb1bd09da2e85868a6e869eb9ec0c/jetified-library-2.1.4/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ab5eb1bd09da2e85868a6e869eb9ec0c/jetified-library-2.1.4/res" />
+=======
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/47bf9467a848f63132c510989000d0ad/jetified-library-2.1.4/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/47bf9467a848f63132c510989000d0ad/jetified-library-2.1.4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/47bf9467a848f63132c510989000d0ad/jetified-library-2.1.4/res" />
+>>>>>>> f68ed437946cbb79868d8bde79840952d7af05cc
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rengwuxian.materialedittext/library/2.1.4/55b0a991e9defb3bc902d9fb97fd436554119d4e/library-2.1.4-javadoc.jar!/" />
