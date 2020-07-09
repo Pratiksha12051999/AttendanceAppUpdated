@@ -33,14 +33,13 @@ import com.squareup.picasso.Picasso;
 
 public class Assignment_status_upload extends AppCompatActivity {
 
-    Button upload, selectFile;
+    Button upload, selectFile, fecthFile;
     TextView notification;
     Uri excelUri;
     ProgressDialog progressDialog;
 
     FirebaseStorage storage;
     FirebaseDatabase database;
-    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Assignment_Status");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class Assignment_status_upload extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         database = FirebaseDatabase.getInstance();
 
-        final String fileName=System.currentTimeMillis()+"";
+        fecthFile = findViewById(R.id.fetchFile);
         upload = findViewById(R.id.upload);
         selectFile = findViewById(R.id.selectFile);
         notification = findViewById(R.id.notification);
@@ -77,6 +76,13 @@ public class Assignment_status_upload extends AppCompatActivity {
                 }
             }
         });
+
+        fecthFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Assignment_status_upload.this,Assignment_Teacher_status_fetch_r.class));
+            }
+        });
     }
 
     @Override
@@ -97,14 +103,15 @@ public class Assignment_status_upload extends AppCompatActivity {
         startActivityForResult(intent, 86);
     }
 
-    private void uploadFile(Uri excelUri) {
+    private void uploadFile(final Uri excelUri) {
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setTitle("Uploading file...");
         progressDialog.setProgress(0);
         progressDialog.show();
 
-        final String fileName=System.currentTimeMillis()+"";
+        final String fileName=System.currentTimeMillis()+".xlsx";
+        final String fileName1= System.currentTimeMillis()+"";
         StorageReference storageReference = storage.getReference();
 
         storageReference.child("Uploads_excel_for_ass_status").child(fileName).putFile(excelUri)
@@ -115,7 +122,7 @@ public class Assignment_status_upload extends AppCompatActivity {
 
                 //store in realtime db
                 DatabaseReference reference = database.getReference();
-                reference.child(fileName).setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                reference.child(fileName1).setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
@@ -149,22 +156,7 @@ public class Assignment_status_upload extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 86 && resultCode == RESULT_OK && data != null) {
             excelUri = data.getData();
-            final StorageReference store = storage.getReference();
-            store.child("Uploads_excel_for_ass_status").getFile(excelUri);
-            UploadTask  uploadTask = store.putFile(data.getData());
-            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot,
-                    Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    mDatabase.push().setValue(store.getDownloadUrl());
-                    return store.getDownloadUrl();
-                }
-            });
-
-        notification.setText("A file is selected : "+ data.getData().getLastPathSegment());
+            notification.setText("A file is selected : "+ data.getData().getLastPathSegment());
         } else {
             Toast.makeText(Assignment_status_upload.this, "Please select a file.", Toast.LENGTH_SHORT).show();
         }

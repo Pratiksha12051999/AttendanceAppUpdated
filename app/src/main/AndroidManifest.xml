@@ -24,6 +24,7 @@
         <activity android:name=".Events_show_cards_on_recycler"/>
         <activity android:name=".Assignment_Teacher_main"/>
         <activity android:name=".Assignment_StatusExcel"/>
+        <activity android:name=".Assignment_Teacher_status_fetch_r"/>
         <activity android:name=".Assignment_status_upload"/>
         <activity android:name=".Assignment_Teacher_status1"/>
         <activity android:name=".Assignment_yearbutton"/>
