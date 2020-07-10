@@ -98,7 +98,7 @@ public class Assignment_status_upload extends AppCompatActivity {
     private void selectExcel() {
         //Offer user to select file using filemanager
         Intent intent = new Intent();
-        intent.setType("*/*");
+        intent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 86);
     }
@@ -115,26 +115,26 @@ public class Assignment_status_upload extends AppCompatActivity {
         StorageReference storageReference = storage.getReference();
 
         storageReference.child("Uploads_excel_for_ass_status").child(fileName).putFile(excelUri)
-        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String url = taskSnapshot.getStorage().getDownloadUrl().toString();
-
-                //store in realtime db
-                DatabaseReference reference = database.getReference();
-                reference.child(fileName1).setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(Assignment_status_upload.this, "File Successfully uploaded", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                            Toast.makeText(Assignment_status_upload.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        String url = taskSnapshot.getStorage().getDownloadUrl().toString();
 
+                        //store in realtime db
+                        DatabaseReference reference = database.getReference("Ass_Sta");
+                        reference.child(fileName1).setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(Assignment_status_upload.this, "File Successfully uploaded", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                    Toast.makeText(Assignment_status_upload.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
                     }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(Assignment_status_upload.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
