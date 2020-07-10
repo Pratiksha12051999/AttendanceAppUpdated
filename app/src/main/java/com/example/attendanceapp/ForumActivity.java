@@ -108,7 +108,7 @@ public class ForumActivity extends AppCompatActivity {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("question", message);
         hashMap.put("answer", answer);
-        reference.child("Discussion").push().setValue(hashMap);
+        reference.child("Discussion").child(message).setValue(hashMap);
     }
 
 }
