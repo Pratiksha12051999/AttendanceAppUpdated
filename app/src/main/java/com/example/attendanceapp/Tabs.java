@@ -32,6 +32,7 @@ public class Tabs extends AppCompatActivity implements NavigationView.OnNavigati
     Button assignments;
     Button announcements;
     Button events;
+    Button forum;
 
     public void showAttributions(View view) { startActivity(new Intent(this, Attributions.class)); }
 
@@ -51,6 +52,7 @@ public class Tabs extends AppCompatActivity implements NavigationView.OnNavigati
         assignments = findViewById(R.id.assignments);
         announcements = findViewById(R.id.announcement);
         events = findViewById(R.id.events);
+        forum=findViewById(R.id.forum);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -100,6 +102,13 @@ public class Tabs extends AppCompatActivity implements NavigationView.OnNavigati
             public void onClick(View v) {
                 Intent eventsPage = new Intent(Tabs.this, Events_show_cards_on_recycler.class);
                 startActivity(eventsPage);
+            }});
+
+        forum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent forumsPage = new Intent(Tabs.this,ForumActivity.class);
+                startActivity(forumsPage);
             }});
 
 
