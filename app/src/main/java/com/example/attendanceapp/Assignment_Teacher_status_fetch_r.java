@@ -34,16 +34,17 @@ public class Assignment_Teacher_status_fetch_r extends AppCompatActivity {
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference =  storage.getReferenceFromUrl("https://console.firebase.google.com/u/1/project/attendance-app-3e6d7/storage/attendance-app-3e6d7.appspot.com/files~2FUploads_excel_for_ass_status");
+        StorageReference storageReference =  storage.getReferenceFromUrl("gs://attendance-app-3e6d7.appspot.com/Uploads_excel_for_ass_status");
 
         databaseReference.addChildEventListener(new ChildEventListener() {
-
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 //called for individual items at the database reference
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     String fileName = ds.getKey();
                     String url = ds.child("name").getValue(String.class);
+                    Log.i("filename",fileName);
+                  //  Log.i("url",url);
                     ((Assignment_Teacher_status_fetch_r_Adapter)recyclerview.getAdapter()).updateAdapter(fileName, url);
                 }
 //                String fileName =  dataSnapshot.getKey();//filename
