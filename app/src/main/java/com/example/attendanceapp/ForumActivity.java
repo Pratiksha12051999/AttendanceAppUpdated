@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -68,7 +69,10 @@ public class ForumActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(DiscussViewHolder discussViewHolder, Discuss discuss, int i) {
                 discussViewHolder.setQuestion(discuss.getQuestion());
-                discussViewHolder.setAnswer(discuss.getAnswer());
+                if(discuss.getAnswer().equals(" "))
+                    discussViewHolder.setAnswer("Know the answer? Submit a reply!");
+                else
+                    discussViewHolder.setAnswer(discuss.getAnswer());
             }
         };
         list.setAdapter(firebaseRecyclerAdapter);
@@ -93,11 +97,19 @@ public class ForumActivity extends AppCompatActivity {
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    TextView question=(TextView) mView.findViewById(R.id.getquestion);
+                    String ques=question.getText().toString();
                     TextView giveanswer = (TextView) mView.findViewById(R.id.giveanswer);
                     String ans = giveanswer.getText().toString();
+                    DatabaseReference dRef=FirebaseDatabase.getInstance().getReference("Discussion");
+                    dRef.child(ques).child("answer").setValue(ans);
                 }
             });
             TextView getanswer = (TextView) mView.findViewById(R.id.getanswer);
+            if(answer.equals("Know the answer? Submit a reply!"))
+                getanswer.setTextColor(Color.rgb(255, 0, 0));
+            else
+                reply.setText("Change reply");
             getanswer.setText(answer);
         }
     }
