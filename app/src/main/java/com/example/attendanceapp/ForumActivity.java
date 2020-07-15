@@ -1,4 +1,5 @@
 package com.example.attendanceapp;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,9 +15,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+import com.firebase.client.authentication.Constants;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +34,8 @@ public class ForumActivity extends AppCompatActivity {
     DatabaseReference reference;
     RecyclerView list;
     private Object FirebaseRecyclerAdapter;
+    EditText searchtext;
+    Button search;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -45,18 +53,47 @@ public class ForumActivity extends AppCompatActivity {
 
         btn_send = findViewById(R.id.btn_send);
         text_send = findViewById(R.id.text_send);
+        searchtext = findViewById(R.id.searchtext);
+        search = findViewById(R.id.search);
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String msg = text_send.getText().toString();
                 if (!msg.equals("")) {
-                    String a=" ";
-                    sendMessage(msg,a);
+                    String a = " ";
+                    sendMessage(msg, a);
                 } else {
                     Toast.makeText(ForumActivity.this, "Please type your message", Toast.LENGTH_SHORT).show();
                 }
                 text_send.setText("");
+            }
+        });
+
+        final DatabaseReference drefs= FirebaseDatabase.getInstance().getReference().child("Discussion");
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String searchmsg = searchtext.getText().toString();
+                drefs.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot querySnapshot: dataSnapshot.getChildren() ){
+                            String question1 = querySnapshot.child("question").getValue(String.class);
+                            if((question1 != null) && (searchmsg!=null) && (question1.equals(searchmsg))){
+                                searchtext.setText("Your Query is Already Asked");
+                            }
+                            else
+                            {
+                                searchtext.setText("Your Query is not Asked");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
             }
         });
     }
@@ -122,5 +159,4 @@ public class ForumActivity extends AppCompatActivity {
         hashMap.put("answer", answer);
         reference.child("Discussion").child(message).setValue(hashMap);
     }
-
 }
