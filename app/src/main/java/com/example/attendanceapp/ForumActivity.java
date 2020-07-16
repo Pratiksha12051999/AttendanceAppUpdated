@@ -81,11 +81,13 @@ public class ForumActivity extends AppCompatActivity {
                         for(DataSnapshot querySnapshot: dataSnapshot.getChildren() ){
                             String question1 = querySnapshot.child("question").getValue(String.class);
                             if((question1 != null) && (searchmsg!=null) && (question1.equals(searchmsg))){
-                                searchtext.setText("Your Query is Already Asked");
+                                Toast.makeText(ForumActivity.this, "Your Query is already Asked !", Toast.LENGTH_SHORT).show();
+                                searchtext.setText("");
                             }
                             else
                             {
-                                searchtext.setText("Your Query is not Asked");
+                                Toast.makeText(ForumActivity.this, "Your Query is Not Asked !", Toast.LENGTH_SHORT).show();
+                                searchtext.setText("");
                             }
                         }
                     }
@@ -96,6 +98,8 @@ public class ForumActivity extends AppCompatActivity {
                 });
             }
         });
+
+
     }
 
     protected void onStart() {
