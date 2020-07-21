@@ -43,6 +43,7 @@ public class Event_details extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PICK_IMAGE_CODE)
         {
+            storageReference=FirebaseStorage.getInstance().getReference().child("Event_details/"+System.currentTimeMillis());
             UploadTask uploadTask = storageReference.putFile(data.getData());
 
             Task<Uri> task = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
